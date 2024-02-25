@@ -112,7 +112,7 @@ class SAInfiniteScroll extends StatelessWidget {
             firstPageErrorIndicatorBuilder: (_) {
               return Container(
                 padding: const EdgeInsets.all(16),
-                height: MediaQuery.sizeOf(context).height / 1.5,
+                height: MediaQuery.sizeOf(context).height / 1.2,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -150,7 +150,7 @@ class SAInfiniteScroll extends StatelessWidget {
                       child: Text(
                         AppLocalizations.of(context)!.tryAgain,
                         style: TextStyles.pop13W400(
-                          color: Colors.grey,
+                          color: Colors.white,
                         ),
                       ),
                     ),
@@ -235,7 +235,7 @@ class SAInfiniteScroll extends StatelessWidget {
                       child: Text(
                         AppLocalizations.of(context)!.tryAgain,
                         style: TextStyles.pop13W400(
-                          color: Colors.grey,
+                          color: Colors.white,
                         ),
                       ),
                     ),

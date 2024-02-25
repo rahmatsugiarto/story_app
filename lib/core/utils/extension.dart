@@ -7,7 +7,7 @@ import 'package:story_app/core/utils/log.dart';
 
 extension DioErrorX on DioException {
   bool get isNoConnectionError {
-    return type == DioExceptionType.unknown && error is SocketException;
+    return type == DioExceptionType.connectionError && error is SocketException;
   }
 }
 
