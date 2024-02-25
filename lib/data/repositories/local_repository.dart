@@ -46,7 +46,7 @@ class LocalRepositoryImpl implements LocalRepository {
   Future<void> saveLocale({
     required String locale,
   }) async {
-    sharedPreferences.setString(AppConstants.cachedKey.localeKey, '');
+    sharedPreferences.setString(AppConstants.cachedKey.localeKey, locale);
   }
 
   @override

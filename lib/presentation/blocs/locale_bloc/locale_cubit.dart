@@ -14,8 +14,8 @@ class LocaleCubit extends Cubit<LocaleState> {
     required this.local,
   }) : super(LocaleState(locale: Locale(AppConstants.localeLang.en)));
 
-  void saveLocale({required String locale}) {
-    local.saveLocale(locale: locale);
+  void saveLocale({required String locale}) async {
+    await local.saveLocale(locale: locale);
     emit(state.copyWith(locale: Locale(locale)));
   }
 
