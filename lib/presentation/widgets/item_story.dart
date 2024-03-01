@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:story_app/core/resources/text_styles.dart';
 import 'package:story_app/core/utils/random_pict.dart';
-import 'package:story_app/data/models/response/story_data.dart';
+import 'package:story_app/data/models/response/story_data/story_data.dart';
 import 'package:story_app/presentation/widgets/cached_image.dart';
 
 class ItemStory extends StatelessWidget {

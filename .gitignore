@@ -889,3 +889,5 @@ DerivedData/
 !/packages/flutter_tools/test/data/dart_dependencies_test/**/.packages
 
 config.json
+*.g.dart
+*.freezed.dart

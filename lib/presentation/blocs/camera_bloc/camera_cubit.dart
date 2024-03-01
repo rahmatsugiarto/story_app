@@ -6,7 +6,7 @@ import 'camera_state.dart';
 @LazySingleton()
 class CameraCubit extends Cubit<CameraState> {
   CameraCubit()
-      : super(const CameraState(
+      : super(CameraState(
           isCameraInitialized: false,
           isBackCameraSelected: true,
         ));
