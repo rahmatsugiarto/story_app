@@ -97,7 +97,8 @@ class _PostStoryScreenState extends State<PostStoryScreen> {
             SingleChildScrollView(
               child: Image.file(
                 File(widget.file.path),
-                fit: BoxFit.contain,
+                fit: BoxFit.cover,
+                width: MediaQuery.sizeOf(context).width,
               ),
             ),
             Align(
