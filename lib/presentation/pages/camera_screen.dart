@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:story_app/core/constants/app_constants.dart';
 import 'package:story_app/core/constants/app_routes.dart';
 import 'package:story_app/core/utils/log.dart';
 import 'package:story_app/presentation/blocs/camera_bloc/camera_cubit.dart';
@@ -137,7 +138,12 @@ class _CameraScreenState extends State<CameraScreen>
             BlocBuilder<CameraCubit, CameraState>(
               builder: (context, state) {
                 if (state.isCameraInitialized) {
-                  return CameraPreview(controller!);
+                  return Hero(
+                    tag: AppConstants.tagHero.tagLocale,
+                    child: CameraPreview(
+                      controller!,
+                    ),
+                  );
                 } else {
                   return const SizedBox.shrink();
                 }

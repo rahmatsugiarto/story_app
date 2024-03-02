@@ -110,7 +110,7 @@ class _HomeScreenState extends State<HomeScreen> {
             },
           ),
           FloatingActionButton.small(
-            heroTag: null,
+            heroTag: AppConstants.tagHero.tagLocale,
             foregroundColor: Colors.black,
             backgroundColor: Colors.white,
             child: const Icon(Icons.add),

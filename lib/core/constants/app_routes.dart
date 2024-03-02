@@ -1,6 +1,8 @@
 import 'package:story_app/data/models/app_router.dart';
 
 class AppRoutes {
+  const AppRoutes._();
+
   static AppRouter splashScreen = AppRouter(
     name: "splash_screen",
     path: "/",

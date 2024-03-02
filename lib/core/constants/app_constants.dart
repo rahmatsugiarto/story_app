@@ -1,5 +1,5 @@
 class AppConstants {
-  const AppConstants();
+  const AppConstants._();
 
   static CachedKey cachedKey = const CachedKey();
   static AppApi appApi = const AppApi();
@@ -7,6 +7,7 @@ class AppConstants {
   static ErrorMessage errorMessage = const ErrorMessage();
   static TagDialog tagDialog = const TagDialog();
   static ArgsKey argsKey = const ArgsKey();
+  static TagHero tagHero = const TagHero();
   static LocaleLang localeLang = const LocaleLang();
 }
 
@@ -45,8 +46,13 @@ class TagDialog {
   const TagDialog();
 
   String get tagDialogLoading => "tag_dialog_loading";
-
   String get tagDialog => "tag_dialog";
+}
+
+class TagHero {
+  const TagHero();
+
+  String get tagLocale => "ta_locale";
 }
 
 class ArgsKey {
