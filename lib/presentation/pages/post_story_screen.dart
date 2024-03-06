@@ -54,7 +54,9 @@ class _PostStoryScreenState extends State<PostStoryScreen> {
               lon: location.longitude,
             );
       } else {
-        CustomDialog.showInfo(message: "Location is required");
+        CustomDialog.showInfo(
+          message: AppLocalizations.of(context)!.addLocation,
+        );
       }
     } else {
       context.read<PostCubit>().postStory(
