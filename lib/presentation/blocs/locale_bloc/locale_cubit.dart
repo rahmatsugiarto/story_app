@@ -19,8 +19,9 @@ class LocaleCubit extends Cubit<LocaleState> {
     emit(state.copyWith(locale: Locale(locale)));
   }
 
-  void getLocale() async {
-    final locale = await local.getLocale();
-    emit(state.copyWith(locale: Locale(locale)));
+  void getLocale() {
+    local.getLocale().then((value) {
+      emit(state.copyWith(locale: Locale(value)));
+    });
   }
 }

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:story_app/common.dart';
@@ -12,6 +13,7 @@ import 'package:story_app/core/constants/app_routes.dart';
 import 'package:story_app/core/resources/text_styles.dart';
 import 'package:story_app/core/state/view_data_state.dart';
 import 'package:story_app/data/models/response/story_data/story_data.dart';
+import 'package:story_app/flavors.dart';
 import 'package:story_app/presentation/blocs/home_bloc/home_cubit.dart';
 import 'package:story_app/presentation/blocs/home_bloc/home_state.dart';
 import 'package:story_app/presentation/blocs/locale_bloc/locale_cubit.dart';
@@ -179,12 +181,25 @@ class _HomeScreenState extends State<HomeScreen> {
 
             return GestureDetector(
               onTap: () {
-                context.goNamed(
-                  AppRoutes.detailStory.name,
-                  pathParameters: {
-                    AppConstants.argsKey.id: storyData.id ?? "",
-                  },
-                );
+                if (F.appFlavor == Flavor.paid) {
+                  context.goNamed(
+                    AppRoutes.detailStoryMaps.name,
+                    extra: LatLng(
+                      storyData.lat ?? 0,
+                      storyData.lon ?? 0,
+                    ),
+                    pathParameters: {
+                      AppConstants.argsKey.id: storyData.id ?? "",
+                    },
+                  );
+                } else {
+                  context.goNamed(
+                    AppRoutes.detailStory.name,
+                    pathParameters: {
+                      AppConstants.argsKey.id: storyData.id ?? "",
+                    },
+                  );
+                }
               },
               child: ItemStory(storyData: storyData),
             );

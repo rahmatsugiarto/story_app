@@ -30,7 +30,7 @@ class _CameraScreenState extends State<CameraScreen>
   void initState() {
     WidgetsBinding.instance.addObserver(this);
     _setIsCameraInitialized(false);
-    onNewCameraSelected(widget.cameras.first);
+    _onNewCameraSelected(widget.cameras.first);
 
     super.initState();
   }
@@ -57,11 +57,11 @@ class _CameraScreenState extends State<CameraScreen>
       cameraController.dispose();
     } else if (state == AppLifecycleState.resumed) {
       // Reinitialize the camera with same properties
-      onNewCameraSelected(cameraController.description);
+      _onNewCameraSelected(cameraController.description);
     }
   }
 
-  void onNewCameraSelected(CameraDescription cameraDescription) async {
+  void _onNewCameraSelected(CameraDescription cameraDescription) async {
     final previousCameraController = controller;
     final cameraController = CameraController(
       cameraDescription,
@@ -95,7 +95,7 @@ class _CameraScreenState extends State<CameraScreen>
 
     final isBackCameraSelected =
         context.read<CameraCubit>().state.isBackCameraSelected;
-    onNewCameraSelected(
+    _onNewCameraSelected(
       widget.cameras[isBackCameraSelected ? 1 : 0],
     );
 
@@ -177,6 +177,21 @@ class _CameraScreenState extends State<CameraScreen>
                       ),
                     ),
                   ],
+                ),
+              ),
+            ),
+            Align(
+              alignment: Alignment.topLeft,
+              child: SafeArea(
+                child: Container(
+                  margin: const EdgeInsets.only(top: 10),
+                  child: IconButton(
+                    onPressed: () => context.pop(),
+                    icon: const Icon(
+                      Icons.arrow_back,
+                      color: Colors.white,
+                    ),
+                  ),
                 ),
               ),
             ),

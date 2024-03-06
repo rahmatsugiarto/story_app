@@ -52,7 +52,7 @@ class TagDialog {
 class TagHero {
   const TagHero();
 
-  String get tagLocale => "ta_locale";
+  String get tagLocale => "tag_hero_camera";
 }
 
 class ArgsKey {

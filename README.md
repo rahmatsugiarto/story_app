@@ -8,8 +8,10 @@ this project use [Flutter 3.16.9](https://flutter.dev/)
 
 clone this project and run this command in the project path.
 
+Input Your geo.API_KEY at AndroidManifest.xml and AppDelegate.swift
+
 ```bash
-flutter packages pub run build_runner build
+flutter flutter pub run build_runner build --delete-conflicting-outputs
 flutter pub get
 flutter run
 ```

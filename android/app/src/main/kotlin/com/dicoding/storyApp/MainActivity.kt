@@ -1,4 +1,4 @@
-package com.example.story_app
+package com.dicoding.storyApp
 
 import io.flutter.embedding.android.FlutterActivity
 

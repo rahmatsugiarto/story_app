@@ -28,9 +28,19 @@ class AppRoutes {
     path: "detail_story",
   );
 
+  static AppRouter detailStoryMaps = AppRouter(
+    name: "detail_story_maps",
+    path: "detail_story_maps",
+  );
+
   static AppRouter postStory = AppRouter(
     name: "post_story",
     path: "post_story",
+  );
+
+  static AppRouter addLocation = AppRouter(
+    name: "add_location",
+    path: "add_location",
   );
 
   static AppRouter camera = AppRouter(

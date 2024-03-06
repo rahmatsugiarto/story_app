@@ -34,5 +34,7 @@
   "share": "Share",
   "language": "Language",
   "english": "English",
-  "bahasa": "Bahasa"
+  "bahasa": "Bahasa",
+  "addLocation": "Add Location",
+  "detailPost": "Detail Post"
 }

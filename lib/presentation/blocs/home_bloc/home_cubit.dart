@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:story_app/data/repositories/local_repository.dart';
+import 'package:story_app/flavors.dart';
 
 import '../../../core/state/view_data_state.dart';
 import '../../../data/repositories/remote_repository.dart';
@@ -22,7 +23,11 @@ class HomeCubit extends Cubit<HomeState> {
   void fetchListStory({required int page}) async {
     emit(state.copyWith(homeState: ViewData.loading()));
 
-    final result = await remote.fetchListStory(page: page);
+    final result = await remote.fetchListStory(
+      page: page,
+      location: F.appFlavor == Flavor.free ? 0 : 1,
+    );
+
     result.fold(
       (errorMsg) => emit(
         state.copyWith(
