@@ -53,6 +53,7 @@ class TagHero {
   const TagHero();
 
   String get tagLocale => "tag_hero_camera";
+  String get tagDetailStory => "tag_detail_story";
 }
 
 class ArgsKey {

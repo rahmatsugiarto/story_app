@@ -16,7 +16,6 @@ class DetailStoryMapsCubit extends Cubit<DetailStoryMapsState> {
   }) : super(DetailStoryMapsState(
           detailState: ViewData.initial(),
           markers: const Marker(markerId: MarkerId("")),
-          isShowMore: false,
         ));
 
   void fetchDetailStory({required String id}) async {
@@ -38,15 +37,10 @@ class DetailStoryMapsCubit extends Cubit<DetailStoryMapsState> {
     );
   }
 
-  void setIsShowMore({required bool isShowMore}) {
-    emit(state.copyWith(isShowMore: isShowMore));
-  }
-
   void resetState() {
     emit(state.copyWith(
       detailState: ViewData.initial(),
       markers: const Marker(markerId: MarkerId("")),
-      isShowMore: false,
     ));
   }
 

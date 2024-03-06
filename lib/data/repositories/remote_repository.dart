@@ -27,7 +27,6 @@ abstract class RemoteRepository {
 
   Future<Either<String, StoryResponse>> fetchListStory({
     required int page,
-    required int location,
   });
 
   Future<Either<String, DetailStoryResponse>> fetchDetailStory({
@@ -101,10 +100,6 @@ class RemoteRepositoryImpl implements RemoteRepository {
   @override
   Future<Either<String, StoryResponse>> fetchListStory({
     required int page,
-
-    /// 1 for get all stories with location
-    /// 0 for all stories without considering location
-    required int location,
   }) async {
     try {
       final response = await dio.get(
@@ -112,7 +107,6 @@ class RemoteRepositoryImpl implements RemoteRepository {
         queryParameters: StoryRequest(
           page: page,
           size: 10,
-          location: location,
         ).toJson(),
       );
 

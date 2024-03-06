@@ -58,7 +58,7 @@ class _SplashScreenState extends State<SplashScreen>
   Widget build(BuildContext context) {
     return BlocListener<SplashCubit, SplashState>(
       listener: (context, state) {
-        Future.delayed(const Duration(seconds: 2), () {
+        Future.delayed(const Duration(milliseconds: 2000), () {
           if (state.isLogin) {
             context.goNamed(AppRoutes.home.name);
           } else {

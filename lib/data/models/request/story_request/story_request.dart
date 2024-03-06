@@ -8,6 +8,5 @@ class StoryRequest with _$StoryRequest {
   factory StoryRequest({
     required int page,
     required int size,
-    required int location,
   }) = _StoryRequest;
 }

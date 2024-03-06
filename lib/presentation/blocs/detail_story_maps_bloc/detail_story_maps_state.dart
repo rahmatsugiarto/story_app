@@ -10,6 +10,5 @@ class DetailStoryMapsState with _$DetailStoryMapsState {
   factory DetailStoryMapsState({
     required ViewData<DetailStoryResponse> detailState,
     required Marker markers,
-    required bool isShowMore,
   }) = _DetailStoryMapsState;
 }

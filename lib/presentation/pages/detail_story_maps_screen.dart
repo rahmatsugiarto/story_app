@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:story_app/core/constants/app_constants.dart';
+import 'package:story_app/core/constants/app_routes.dart';
 import 'package:story_app/core/resources/text_styles.dart';
 import 'package:story_app/core/state/view_data_state.dart';
 import 'package:story_app/core/utils/extension.dart';
@@ -26,34 +28,14 @@ class DetailStoryMapsScreen extends StatefulWidget {
   State<DetailStoryMapsScreen> createState() => _DetailStoryMapsScreenState();
 }
 
-class _DetailStoryMapsScreenState extends State<DetailStoryMapsScreen>
-    with SingleTickerProviderStateMixin {
+class _DetailStoryMapsScreenState extends State<DetailStoryMapsScreen> {
   MapType selectedMapType = MapType.normal;
   Set<Marker> markers = {};
-
-  late final AnimationController _controller = AnimationController(
-    duration: const Duration(milliseconds: 400),
-    vsync: this,
-    lowerBound: 0.3,
-    upperBound: 1.0,
-  );
-
-  late final Animation<double> _animation = CurvedAnimation(
-    parent: _controller,
-    curve: Curves.fastOutSlowIn,
-  );
 
   @override
   void initState() {
     super.initState();
-    _defineMaker();
     _resetState();
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
   }
 
   void _fetchDetailStory() {
@@ -73,11 +55,8 @@ class _DetailStoryMapsScreenState extends State<DetailStoryMapsScreen>
         )
         .then((_) {
       markers.add(context.read<DetailStoryMapsCubit>().state.markers);
+      _fetchDetailStory();
     });
-  }
-
-  void _setIsShowMore(bool isShowMore) {
-    context.read<DetailStoryMapsCubit>().setIsShowMore(isShowMore: isShowMore);
   }
 
   @override
@@ -96,16 +75,10 @@ class _DetailStoryMapsScreenState extends State<DetailStoryMapsScreen>
                 zoomGesturesEnabled: false,
                 markers: markers,
                 initialCameraPosition: CameraPosition(
-                  zoom: 18,
+                  zoom: 16,
                   target: widget.position,
                 ),
-                onMapCreated: (controller) {
-                  Future.delayed(const Duration(seconds: 2), () {
-                    controller.showMarkerInfoWindow(MarkerId(widget.id));
-                  });
-
-                  _fetchDetailStory();
-                },
+                onMapCreated: (_) => _defineMaker(),
               );
             },
           ),
@@ -154,128 +127,120 @@ class _DetailStoryMapsScreenState extends State<DetailStoryMapsScreen>
                     context.read<LocaleCubit>().state.locale.toLanguageTag();
 
                 if (status.isHasData) {
-                  return Container(
-                    margin: const EdgeInsets.only(
-                      bottom: 20,
-                      right: 20,
-                      left: 20,
-                    ),
-                    width: MediaQuery.sizeOf(context).width,
-                    child: Card(
-                      color: Colors.white,
-                      elevation: 2,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          GestureDetector(
-                            onTap: () {
-                              _setIsShowMore(!state.isShowMore);
-
-                              if (state.isShowMore) {
-                                _controller.forward();
-                              } else {
-                                _controller.reverse();
-                              }
-                            },
-                            child: ClipRRect(
-                              borderRadius: const BorderRadius.only(
-                                topLeft: Radius.circular(10),
-                                topRight: Radius.circular(10),
-                              ),
-                              child: SizeTransition(
-                                sizeFactor: _animation,
-                                axis: Axis.vertical,
-                                axisAlignment: -1,
+                  return Hero(
+                    tag: AppConstants.tagHero.tagDetailStory,
+                    child: Container(
+                      margin: const EdgeInsets.only(
+                        bottom: 20,
+                        right: 20,
+                        left: 20,
+                      ),
+                      width: MediaQuery.sizeOf(context).width,
+                      child: Card(
+                        color: Colors.white,
+                        elevation: 2,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                context.pushNamed(
+                                  AppRoutes.moreDetailStoryMaps.name,
+                                  extra: data,
+                                );
+                              },
+                              child: ClipRRect(
+                                borderRadius: const BorderRadius.only(
+                                  topLeft: Radius.circular(10),
+                                  topRight: Radius.circular(10),
+                                ),
                                 child: CachedImage(
                                   imgUrl: data?.photoUrl ?? "",
+                                  height: 170,
                                 ),
                               ),
                             ),
-                          ),
-                          const SizedBox(
-                            height: 10.0,
-                          ),
-                          Container(
-                            margin: const EdgeInsets.symmetric(horizontal: 12),
-                            child: const Row(
-                              children: [
-                                Icon(
-                                  Icons.favorite_border_outlined,
-                                  color: Colors.black,
-                                ),
-                                SizedBox(
-                                  width: 12.0,
-                                ),
-                                Icon(
-                                  Icons.mode_comment_outlined,
-                                  color: Colors.black,
-                                ),
-                                SizedBox(
-                                  width: 12.0,
-                                ),
-                                Icon(
-                                  Icons.reply,
-                                  color: Colors.black,
-                                ),
-                                Spacer(),
-                                Icon(
-                                  Icons.bookmark_border_outlined,
-                                  color: Colors.black,
-                                ),
-                              ],
+                            const SizedBox(
+                              height: 10.0,
                             ),
-                          ),
-                          const SizedBox(
-                            height: 8,
-                          ),
-                          Container(
-                            margin: const EdgeInsets.symmetric(horizontal: 12),
-                            child: Text(
-                              (data?.createdAt ?? "")
-                                  .formatDate(locale: locale),
-                              style: TextStyles.pop10W400(
-                                color: Colors.grey,
-                              ),
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 8,
-                          ),
-                          SizedBox(
-                            height: 100,
-                            child: SingleChildScrollView(
-                              physics: const AlwaysScrollableScrollPhysics(),
-                              child: Column(
+                            Container(
+                              margin:
+                                  const EdgeInsets.symmetric(horizontal: 12),
+                              child: const Row(
                                 children: [
-                                  Container(
-                                    margin: const EdgeInsets.symmetric(
-                                      horizontal: 12,
-                                    ),
-                                    child: Text.rich(
-                                      TextSpan(
-                                        children: [
-                                          TextSpan(
-                                            text: data?.name ?? "",
-                                            style: TextStyles.pop14W600(),
-                                          ),
-                                          const TextSpan(text: " "),
-                                          TextSpan(
-                                            text: data?.description ?? "",
-                                            style: TextStyles.pop14W400(),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
+                                  Icon(
+                                    Icons.favorite_border_outlined,
+                                    color: Colors.black,
+                                  ),
+                                  SizedBox(
+                                    width: 12.0,
+                                  ),
+                                  Icon(
+                                    Icons.mode_comment_outlined,
+                                    color: Colors.black,
+                                  ),
+                                  SizedBox(
+                                    width: 12.0,
+                                  ),
+                                  Icon(
+                                    Icons.reply,
+                                    color: Colors.black,
+                                  ),
+                                  Spacer(),
+                                  Icon(
+                                    Icons.bookmark_border_outlined,
+                                    color: Colors.black,
                                   ),
                                 ],
                               ),
                             ),
-                          ),
-                          const SizedBox(
-                            height: 10.0,
-                          ),
-                        ],
+                            const SizedBox(
+                              height: 8,
+                            ),
+                            Container(
+                              margin:
+                                  const EdgeInsets.symmetric(horizontal: 12),
+                              child: Text(
+                                (data?.createdAt ?? "")
+                                    .formatDate(locale: locale),
+                                style: TextStyles.pop10W400(
+                                  color: Colors.grey,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 8,
+                            ),
+                            Flexible(
+                              child: Container(
+                                margin: const EdgeInsets.symmetric(
+                                  horizontal: 12,
+                                ),
+                                child: Text.rich(
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                  TextSpan(
+                                    children: [
+                                      TextSpan(
+                                        text: data?.name ?? "",
+                                        style: TextStyles.pop14W600(),
+                                      ),
+                                      const TextSpan(text: " "),
+                                      TextSpan(
+                                        text: data?.description ?? "",
+                                        style: TextStyles.pop14W400(),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 10.0,
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   );

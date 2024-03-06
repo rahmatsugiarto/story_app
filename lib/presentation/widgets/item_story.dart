@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:story_app/core/resources/text_styles.dart';
+import 'package:story_app/core/utils/extension.dart';
 import 'package:story_app/core/utils/random_pict.dart';
 import 'package:story_app/data/models/response/story_data/story_data.dart';
+import 'package:story_app/presentation/blocs/locale_bloc/locale_cubit.dart';
 import 'package:story_app/presentation/widgets/cached_image.dart';
 
 class ItemStory extends StatelessWidget {
@@ -14,6 +17,8 @@ class ItemStory extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final locale = context.read<LocaleCubit>().state.locale.toLanguageTag();
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -96,6 +101,21 @@ class ItemStory extends StatelessWidget {
             maxLines: 3,
             overflow: TextOverflow.ellipsis,
           ),
+        ),
+        const SizedBox(
+          height: 8,
+        ),
+        Container(
+          margin: const EdgeInsets.symmetric(horizontal: 12),
+          child: Text(
+            (storyData.createdAt ?? "").formatDate(locale: locale),
+            style: TextStyles.pop10W400(
+              color: Colors.grey,
+            ),
+          ),
+        ),
+        const SizedBox(
+          height: 8,
         ),
       ],
     );

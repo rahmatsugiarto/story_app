@@ -13,7 +13,6 @@ import 'package:story_app/core/constants/app_routes.dart';
 import 'package:story_app/core/resources/text_styles.dart';
 import 'package:story_app/core/state/view_data_state.dart';
 import 'package:story_app/data/models/response/story_data/story_data.dart';
-import 'package:story_app/flavors.dart';
 import 'package:story_app/presentation/blocs/home_bloc/home_cubit.dart';
 import 'package:story_app/presentation/blocs/home_bloc/home_state.dart';
 import 'package:story_app/presentation/blocs/locale_bloc/locale_cubit.dart';
@@ -181,7 +180,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
             return GestureDetector(
               onTap: () {
-                if (F.appFlavor == Flavor.paid) {
+                if (storyData.lat != null || storyData.lon != null) {
                   context.goNamed(
                     AppRoutes.detailStoryMaps.name,
                     extra: LatLng(

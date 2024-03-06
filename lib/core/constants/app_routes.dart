@@ -33,6 +33,11 @@ class AppRoutes {
     path: "detail_story_maps",
   );
 
+  static AppRouter moreDetailStoryMaps = AppRouter(
+    name: "more_detail_story_maps",
+    path: "more_detail_story_maps",
+  );
+
   static AppRouter postStory = AppRouter(
     name: "post_story",
     path: "post_story",
