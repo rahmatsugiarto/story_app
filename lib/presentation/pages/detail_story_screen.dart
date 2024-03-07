@@ -102,77 +102,80 @@ class _DetailStoryScreenState extends State<DetailStoryScreen> {
             final locale =
                 context.read<LocaleCubit>().state.locale.toLanguageTag();
 
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                CachedImage(imgUrl: data?.photoUrl ?? ""),
-                const SizedBox(
-                  height: 10.0,
-                ),
-                Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 12),
-                  child: const Row(
-                    children: [
-                      Icon(
-                        Icons.favorite_border_outlined,
-                        color: Colors.black,
-                      ),
-                      SizedBox(
-                        width: 12.0,
-                      ),
-                      Icon(
-                        Icons.mode_comment_outlined,
-                        color: Colors.black,
-                      ),
-                      SizedBox(
-                        width: 12.0,
-                      ),
-                      Icon(
-                        Icons.reply,
-                        color: Colors.black,
-                      ),
-                      Spacer(),
-                      Icon(
-                        Icons.bookmark_border_outlined,
-                        color: Colors.black,
-                      ),
-                    ],
+            return SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  CachedImage(imgUrl: data?.photoUrl ?? ""),
+                  const SizedBox(
+                    height: 10.0,
                   ),
-                ),
-                const SizedBox(
-                  height: 8,
-                ),
-                Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 12),
-                  child: Text(
-                    (data?.createdAt ?? "").formatDate(locale: locale),
-                    style: TextStyles.pop10W400(
-                      color: Colors.grey,
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  height: 8,
-                ),
-                Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 12),
-                  child: Text.rich(
-                    TextSpan(
+                  Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 12),
+                    child: const Row(
                       children: [
-                        TextSpan(
-                          text: data?.name ?? "" " ",
-                          style: TextStyles.pop14W600(),
+                        Icon(
+                          Icons.favorite_border_outlined,
+                          color: Colors.black,
                         ),
-                        const TextSpan(text: " "),
-                        TextSpan(
-                          text: data?.description ?? "",
-                          style: TextStyles.pop14W400(),
+                        SizedBox(
+                          width: 12.0,
+                        ),
+                        Icon(
+                          Icons.mode_comment_outlined,
+                          color: Colors.black,
+                        ),
+                        SizedBox(
+                          width: 12.0,
+                        ),
+                        Icon(
+                          Icons.reply,
+                          color: Colors.black,
+                        ),
+                        Spacer(),
+                        Icon(
+                          Icons.bookmark_border_outlined,
+                          color: Colors.black,
                         ),
                       ],
                     ),
                   ),
-                ),
-              ],
+                  const SizedBox(
+                    height: 8,
+                  ),
+                  Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 12),
+                    child: Text(
+                      (data?.createdAt ?? "").formatDate(locale: locale),
+                      style: TextStyles.pop10W400(
+                        color: Colors.grey,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 8,
+                  ),
+                  Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 12),
+                    child: Text.rich(
+                      TextSpan(
+                        children: [
+                          TextSpan(
+                            text: data?.name ?? "" " ",
+                            style: TextStyles.pop14W600(),
+                          ),
+                          const TextSpan(text: " "),
+                          TextSpan(
+                            text: data?.description ?? "",
+                            style: TextStyles.pop14W400(),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             );
           } else {
             return const SizedBox.shrink();
