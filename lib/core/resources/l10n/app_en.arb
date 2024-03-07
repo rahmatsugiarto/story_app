@@ -37,5 +37,6 @@
   "bahasa": "Bahasa",
   "addLocation": "Add Location",
   "detailPost": "Detail Post",
-  "locationIsRequired": "Location is required"
+  "locationIsRequired": "Location is required",
+  "readMore": "read more"
 }

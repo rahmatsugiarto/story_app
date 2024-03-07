@@ -1,7 +1,9 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:story_app/common.dart';
 import 'package:story_app/core/constants/app_constants.dart';
 import 'package:story_app/core/constants/app_routes.dart';
 import 'package:story_app/core/resources/text_styles.dart';
@@ -217,9 +219,47 @@ class _DetailStoryMapsScreenState extends State<DetailStoryMapsScreen> {
                                 margin: const EdgeInsets.symmetric(
                                   horizontal: 12,
                                 ),
-                                child: Text.rich(
+                                child: AutoSizeText.rich(
                                   maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
+                                  overflowReplacement: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: [
+                                      Text.rich(
+                                        maxLines: 2,
+                                        overflow: TextOverflow.ellipsis,
+                                        TextSpan(
+                                          children: [
+                                            TextSpan(
+                                              text: data?.name ?? "",
+                                              style: TextStyles.pop14W600(),
+                                            ),
+                                            const TextSpan(text: " "),
+                                            TextSpan(
+                                              text: data?.description ?? "",
+                                              style: TextStyles.pop14W400(),
+                                            ),
+                                            const TextSpan(text: " "),
+                                          ],
+                                        ),
+                                      ),
+                                      GestureDetector(
+                                        onTap: () {
+                                          context.pushNamed(
+                                            AppRoutes.moreDetailStoryMaps.name,
+                                            extra: data,
+                                          );
+                                        },
+                                        child: Text(
+                                          AppLocalizations.of(context)!
+                                              .readMore,
+                                          style: TextStyles.pop14W600(
+                                            color: Colors.grey.shade700,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                   TextSpan(
                                     children: [
                                       TextSpan(

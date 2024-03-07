@@ -41,6 +41,7 @@ dependencies:
   geocoding: ^2.2.0
   location: ^5.0.3
   flutter_flavorizr: ^2.2.1
+  auto_size_text: ^3.0.0
 
 dev_dependencies:
   flutter_test:
