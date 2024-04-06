@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:story_app/common.dart';
 import 'package:story_app/core/resources/text_styles.dart';
 import 'package:story_app/core/state/view_data_state.dart';
 import 'package:story_app/core/utils/extension.dart';
@@ -32,67 +33,78 @@ class _DetailStoryScreenState extends State<DetailStoryScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: BlocBuilder<DetailStoryCubit, DetailStoryState>(
-          builder: (context, state) {
-            final status = state.detailState.status;
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.black,
+        title: Text(
+          AppLocalizations.of(context)!.detailPost,
+          style: TextStyles.pop20W500(
+            color: Colors.black,
+          ),
+        ),
+      ),
+      body: BlocBuilder<DetailStoryCubit, DetailStoryState>(
+        builder: (context, state) {
+          final status = state.detailState.status;
 
-            if (status.isLoading) {
-              return const DetailStorySkeleton();
-            } else if (status.isError) {
-              final message = state.detailState.message;
-              return Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          'Failed',
-                          style: TextStyles.pop32W700(),
+          if (status.isLoading) {
+            return const DetailStorySkeleton();
+          } else if (status.isError) {
+            final message = state.detailState.message;
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        AppLocalizations.of(context)!.failed,
+                        style: TextStyles.pop32W700(),
+                        textAlign: TextAlign.center,
+                      ),
+                      const SizedBox(
+                        height: 8.0,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 30,
+                        ),
+                        child: Text(
+                          message,
+                          style: TextStyles.pop13W400(
+                            color: Colors.grey,
+                          ),
                           textAlign: TextAlign.center,
                         ),
-                        const SizedBox(
-                          height: 8.0,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 30,
-                          ),
-                          child: Text(
-                            message,
-                            style: TextStyles.pop13W400(
-                              color: Colors.grey,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 32.0,
-                    ),
-                    CustomButton(
-                      onPressed: () => _fetchDetailStory(),
-                      child: Text(
-                        "Try Again",
-                        style: TextStyles.pop13W400(
-                          color: Colors.grey,
-                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 32.0,
+                  ),
+                  CustomButton(
+                    onPressed: () => _fetchDetailStory(),
+                    child: Text(
+                      AppLocalizations.of(context)!.tryAgain,
+                      style: TextStyles.pop13W400(
+                        color: Colors.grey,
                       ),
                     ),
-                  ],
-                ),
-              );
-            } else if (status.isHasData) {
-              final data = state.detailState.data?.story;
-              final locale =
-                  context.read<LocaleCubit>().state.locale.toLanguageTag();
+                  ),
+                ],
+              ),
+            );
+          } else if (status.isHasData) {
+            final data = state.detailState.data?.story;
+            final locale =
+                context.read<LocaleCubit>().state.locale.toLanguageTag();
 
-              return Column(
+            return SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
+              child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   CachedImage(imgUrl: data?.photoUrl ?? ""),
@@ -163,12 +175,12 @@ class _DetailStoryScreenState extends State<DetailStoryScreen> {
                     ),
                   ),
                 ],
-              );
-            } else {
-              return const SizedBox.shrink();
-            }
-          },
-        ),
+              ),
+            );
+          } else {
+            return const SizedBox.shrink();
+          }
+        },
       ),
     );
   }

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:story_app/core/constants/app_constants.dart';
 import 'package:story_app/core/constants/app_routes.dart';
 import 'package:story_app/core/utils/log.dart';
 import 'package:story_app/presentation/blocs/camera_bloc/camera_cubit.dart';
@@ -29,7 +30,7 @@ class _CameraScreenState extends State<CameraScreen>
   void initState() {
     WidgetsBinding.instance.addObserver(this);
     _setIsCameraInitialized(false);
-    onNewCameraSelected(widget.cameras.first);
+    _onNewCameraSelected(widget.cameras.first);
 
     super.initState();
   }
@@ -56,11 +57,11 @@ class _CameraScreenState extends State<CameraScreen>
       cameraController.dispose();
     } else if (state == AppLifecycleState.resumed) {
       // Reinitialize the camera with same properties
-      onNewCameraSelected(cameraController.description);
+      _onNewCameraSelected(cameraController.description);
     }
   }
 
-  void onNewCameraSelected(CameraDescription cameraDescription) async {
+  void _onNewCameraSelected(CameraDescription cameraDescription) async {
     final previousCameraController = controller;
     final cameraController = CameraController(
       cameraDescription,
@@ -94,7 +95,7 @@ class _CameraScreenState extends State<CameraScreen>
 
     final isBackCameraSelected =
         context.read<CameraCubit>().state.isBackCameraSelected;
-    onNewCameraSelected(
+    _onNewCameraSelected(
       widget.cameras[isBackCameraSelected ? 1 : 0],
     );
 
@@ -137,7 +138,12 @@ class _CameraScreenState extends State<CameraScreen>
             BlocBuilder<CameraCubit, CameraState>(
               builder: (context, state) {
                 if (state.isCameraInitialized) {
-                  return CameraPreview(controller!);
+                  return Hero(
+                    tag: AppConstants.tagHero.tagLocale,
+                    child: CameraPreview(
+                      controller!,
+                    ),
+                  );
                 } else {
                   return const SizedBox.shrink();
                 }
@@ -171,6 +177,21 @@ class _CameraScreenState extends State<CameraScreen>
                       ),
                     ),
                   ],
+                ),
+              ),
+            ),
+            Align(
+              alignment: Alignment.topLeft,
+              child: SafeArea(
+                child: Container(
+                  margin: const EdgeInsets.only(top: 10),
+                  child: IconButton(
+                    onPressed: () => context.pop(),
+                    icon: const Icon(
+                      Icons.arrow_back,
+                      color: Colors.white,
+                    ),
+                  ),
                 ),
               ),
             ),

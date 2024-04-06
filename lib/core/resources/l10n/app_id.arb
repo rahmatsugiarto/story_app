@@ -34,5 +34,9 @@
   "share": "Bagikan",
   "language": "Bahasa",
   "english": "English",
-  "bahasa": "Bahasa"
+  "bahasa": "Bahasa",
+  "addLocation": "Menambahkan lokasi",
+  "detailPost": "Detail Post",
+  "locationIsRequired": "Lokasi diperlukan",
+  "readMore": "Baca selengkapnya"
 }

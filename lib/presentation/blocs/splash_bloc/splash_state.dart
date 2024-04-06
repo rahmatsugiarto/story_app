@@ -1,15 +1,8 @@
-class SplashState {
-  final bool isLogin;
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-  const SplashState({
-    required this.isLogin,
-  });
+part 'splash_state.freezed.dart';
 
-  SplashState copyWith({
-    bool? isLogin,
-  }) {
-    return SplashState(
-      isLogin: isLogin ?? this.isLogin,
-    );
-  }
+@freezed
+class SplashState with _$SplashState {
+  factory SplashState({required bool isLogin}) = _SplashState;
 }

@@ -23,6 +23,7 @@ class HomeCubit extends Cubit<HomeState> {
     emit(state.copyWith(homeState: ViewData.loading()));
 
     final result = await remote.fetchListStory(page: page);
+
     result.fold(
       (errorMsg) => emit(
         state.copyWith(

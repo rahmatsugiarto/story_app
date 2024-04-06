@@ -1,19 +1,12 @@
-import 'package:story_app/data/models/response/login_response.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:story_app/core/state/view_data_state.dart';
+import 'package:story_app/data/models/response/login_response/login_response.dart';
 
-import '../../../core/state/view_data_state.dart';
+part 'login_state.freezed.dart';
 
-class LoginState {
-  final ViewData<LoginResponse> loginState;
-
-  const LoginState({
-    required this.loginState,
-  });
-
-  LoginState copyWith({
-    ViewData<LoginResponse>? loginState,
-  }) {
-    return LoginState(
-      loginState: loginState ?? this.loginState,
-    );
-  }
+@freezed
+class LoginState with _$LoginState {
+  factory LoginState({
+    required ViewData<LoginResponse> loginState,
+  }) = _LoginState;
 }

@@ -4,13 +4,16 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:story_app/common.dart';
 import 'package:story_app/core/constants/app_routes.dart';
 import 'package:story_app/core/resources/text_styles.dart';
 import 'package:story_app/core/state/view_data_state.dart';
+import 'package:story_app/flavors.dart';
 import 'package:story_app/presentation/blocs/post_bloc/post_cubit.dart';
 import 'package:story_app/presentation/blocs/post_bloc/post_state.dart';
 import 'package:story_app/presentation/widgets/custom_button.dart';
+import 'package:story_app/presentation/widgets/custom_dialog.dart';
 import 'package:story_app/presentation/widgets/custom_dialog_loading.dart';
 import 'package:story_app/presentation/widgets/custom_toast.dart';
 
@@ -27,29 +30,52 @@ class _PostStoryScreenState extends State<PostStoryScreen> {
   final TextEditingController _controllerDesc = TextEditingController();
 
   @override
+  void initState() {
+    super.initState();
+    context.read<PostCubit>().resetState();
+  }
+
+  @override
   void dispose() {
     _controllerDesc.dispose();
     super.dispose();
   }
 
-  void _postStory({
-    double? lat,
-    double? lon,
-  }) async {
-    context.read<PostCubit>().postStory(
-          bytes: await widget.file.readAsBytes(),
-          fileName: widget.file.name,
-          description: _controllerDesc.text.trim(),
-          lat: lat,
-          lon: lon,
+  void _postStory() async {
+    if (F.appFlavor == Flavor.paid) {
+      final location = context.read<PostCubit>().state.location;
+
+      if (location != null) {
+        context.read<PostCubit>().postStory(
+              bytes: await widget.file.readAsBytes(),
+              fileName: widget.file.name,
+              description: _controllerDesc.text.trim(),
+              lat: location.latitude,
+              lon: location.longitude,
+            );
+      } else {
+        CustomDialog.showInfo(
+          message: AppLocalizations.of(context)!.addLocation,
         );
+      }
+    } else {
+      context.read<PostCubit>().postStory(
+            bytes: await widget.file.readAsBytes(),
+            fileName: widget.file.name,
+            description: _controllerDesc.text.trim(),
+          );
+    }
   }
 
   void _setIsReadyToPost(String desc) {
     context.read<PostCubit>().setIsReadyToPost(desc: desc);
   }
 
-  void clearAndNavigate(String path) {
+  void _setLocation({LatLng? location}) {
+    context.read<PostCubit>().setLocation(location: location);
+  }
+
+  void _clearAndNavigate(String path) {
     while (context.canPop() == true) {
       context.pop();
     }
@@ -89,7 +115,7 @@ class _PostStoryScreenState extends State<PostStoryScreen> {
 
             CustomDialogLoading.dismiss();
             CustomToast.showSuccess(message: data?.message ?? "");
-            clearAndNavigate(AppRoutes.home.name);
+            _clearAndNavigate(AppRoutes.home.name);
           }
         },
         child: Stack(
@@ -97,7 +123,8 @@ class _PostStoryScreenState extends State<PostStoryScreen> {
             SingleChildScrollView(
               child: Image.file(
                 File(widget.file.path),
-                fit: BoxFit.contain,
+                fit: BoxFit.cover,
+                width: MediaQuery.sizeOf(context).width,
               ),
             ),
             Align(
@@ -122,9 +149,39 @@ class _PostStoryScreenState extends State<PostStoryScreen> {
                       onTapOutside: (_) => FocusScope.of(context).unfocus(),
                       onChanged: _setIsReadyToPost,
                     ),
-                    const SizedBox(
-                      height: 30,
-                    ),
+                    if (F.appFlavor == Flavor.paid)
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: TextButton(
+                          onPressed: () async {
+                            final location = await context
+                                .pushNamed(AppRoutes.addLocation.name);
+
+                            if (location != null) {
+                              _setLocation(location: location as LatLng);
+                            }
+                          },
+                          child: BlocBuilder<PostCubit, PostState>(
+                            builder: (context, state) {
+                              if (state.location == null) {
+                                return Text(
+                                  AppLocalizations.of(context)!.addLocation,
+                                  style: TextStyles.pop14W600(
+                                    color: Colors.blue,
+                                  ),
+                                );
+                              } else {
+                                return Text(
+                                  state.address,
+                                  style: TextStyles.pop14W600(
+                                    color: Colors.blue,
+                                  ),
+                                );
+                              }
+                            },
+                          ),
+                        ),
+                      ),
                     BlocBuilder<PostCubit, PostState>(
                       builder: (context, state) {
                         return CustomButton(

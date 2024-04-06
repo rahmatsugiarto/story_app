@@ -1,23 +1,16 @@
-import 'package:story_app/data/models/response/post_story_response.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:story_app/core/state/view_data_state.dart';
+import 'package:story_app/data/models/response/post_story_response/post_story_response.dart';
 
-import '../../../core/state/view_data_state.dart';
+part 'post_state.freezed.dart';
 
-class PostState {
-  final ViewData<PostStoryResponse> postState;
-  final bool isReadyToPost;
-
-  const PostState({
-    required this.postState,
-    required this.isReadyToPost,
-  });
-
-  PostState copyWith({
-    ViewData<PostStoryResponse>? postState,
-    bool? isReadyToPost,
-  }) {
-    return PostState(
-      postState: postState ?? this.postState,
-      isReadyToPost: isReadyToPost ?? this.isReadyToPost,
-    );
-  }
+@freezed
+class PostState with _$PostState {
+  factory PostState({
+    required ViewData<PostStoryResponse> postState,
+    required bool isReadyToPost,
+    required String address,
+    LatLng? location,
+  }) = _PostState;
 }

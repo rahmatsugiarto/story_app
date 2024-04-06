@@ -138,6 +138,57 @@ class CustomDialog {
     );
   }
 
+  static showInfo({
+    required String message,
+  }) {
+    return SmartDialog.show(
+      tag: AppConstants.tagDialog.tagDialog,
+      animationType: SmartAnimationType.fade,
+      builder: (context) {
+        return BlocBuilder<LocaleCubit, LocaleState>(
+          builder: (context, state) {
+            return Container(
+              width: 280,
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    "Warning",
+                    style: TextStyles.pop20W500(),
+                  ),
+                  const SizedBox(
+                    height: 3.0,
+                  ),
+                  Text(
+                    message,
+                    style: TextStyles.pop14W400(),
+                  ),
+                  const SizedBox(
+                    height: 12.0,
+                  ),
+                  CustomButton(
+                    onPressed: () => dismiss(),
+                    child: Text(
+                      "cancel",
+                      style: TextStyles.pop14W400(
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
   static void dismiss() => SmartDialog.dismiss(
         tag: AppConstants.tagDialog.tagDialog,
       );

@@ -1,14 +1,14 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
-import 'package:story_app/data/models/request/login_request.dart';
-import 'package:story_app/data/models/request/sign_up_request.dart';
-import 'package:story_app/data/models/request/story_request.dart';
-import 'package:story_app/data/models/response/detail_story_response.dart';
-import 'package:story_app/data/models/response/login_response.dart';
-import 'package:story_app/data/models/response/post_story_response.dart';
-import 'package:story_app/data/models/response/sign_up_response.dart';
-import 'package:story_app/data/models/response/story_response.dart';
+import 'package:story_app/data/models/request/login_request/login_request.dart';
+import 'package:story_app/data/models/request/sign_up_request/sign_up_request.dart';
+import 'package:story_app/data/models/request/story_request/story_request.dart';
+import 'package:story_app/data/models/response/detail_story_response/detail_story_response.dart';
+import 'package:story_app/data/models/response/login_response/login_response.dart';
+import 'package:story_app/data/models/response/post_story_response/post_story_response.dart';
+import 'package:story_app/data/models/response/sign_up_response/sign_up_response.dart';
+import 'package:story_app/data/models/response/story_response/story_response.dart';
 
 import '../../core/constants/app_constants.dart';
 import '../../core/utils/extension.dart';
@@ -107,7 +107,6 @@ class RemoteRepositoryImpl implements RemoteRepository {
         queryParameters: StoryRequest(
           page: page,
           size: 10,
-          location: 0,
         ).toJson(),
       );
 

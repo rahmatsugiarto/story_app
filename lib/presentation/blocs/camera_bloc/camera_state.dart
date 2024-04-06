@@ -1,19 +1,11 @@
-class CameraState {
-  final bool isCameraInitialized;
-  final bool isBackCameraSelected;
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-  const CameraState({
-    required this.isCameraInitialized,
-    required this.isBackCameraSelected,
-  });
+part 'camera_state.freezed.dart';
 
-  CameraState copyWith({
-    bool? isCameraInitialized,
-    bool? isBackCameraSelected,
-  }) {
-    return CameraState(
-      isCameraInitialized: isCameraInitialized ?? this.isCameraInitialized,
-      isBackCameraSelected: isBackCameraSelected ?? this.isBackCameraSelected,
-    );
-  }
+@freezed
+class CameraState with _$CameraState {
+  factory CameraState({
+    required bool isCameraInitialized,
+    required bool isBackCameraSelected,
+  }) = _CameraState;
 }

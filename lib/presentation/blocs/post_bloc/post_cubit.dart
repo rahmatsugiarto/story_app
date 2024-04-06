@@ -1,6 +1,8 @@
 import 'dart:typed_data';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:geocoding/geocoding.dart' as geo;
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image/image.dart' as img;
 import 'package:injectable/injectable.dart';
 
@@ -17,7 +19,30 @@ class PostCubit extends Cubit<PostState> {
   }) : super(PostState(
           postState: ViewData.initial(),
           isReadyToPost: false,
+          location: null,
+          address: "",
         ));
+
+  void setLocation({LatLng? location}) async {
+    final info = await geo.placemarkFromCoordinates(
+      location?.latitude ?? 0,
+      location?.longitude ?? 0,
+    );
+
+    final place = info[0];
+    final address = '${place.administrativeArea}, ${place.country}';
+
+    emit(state.copyWith(location: location, address: address));
+  }
+
+  void resetState() {
+    emit(state.copyWith(
+      postState: ViewData.initial(),
+      isReadyToPost: false,
+      location: null,
+      address: "",
+    ));
+  }
 
   void postStory({
     required List<int> bytes,

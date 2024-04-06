@@ -1,23 +1,13 @@
-import 'package:story_app/data/models/response/story_response.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:story_app/core/state/view_data_state.dart';
+import 'package:story_app/data/models/response/story_response/story_response.dart';
 
-import '../../../core/state/view_data_state.dart';
+part 'home_state.freezed.dart';
 
-class HomeState {
-  final ViewData<StoryResponse> homeState;
-  final int page;
-
-  const HomeState({
-    required this.homeState,
-    required this.page,
-  });
-
-  HomeState copyWith({
-    ViewData<StoryResponse>? homeState,
-    int? page,
-  }) {
-    return HomeState(
-      homeState: homeState ?? this.homeState,
-      page: page ?? this.page,
-    );
-  }
+@freezed
+class HomeState with _$HomeState {
+  factory HomeState({
+    required ViewData<StoryResponse> homeState,
+    required int page,
+  }) = _HomeState;
 }

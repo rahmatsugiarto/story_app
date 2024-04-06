@@ -14,12 +14,51 @@ class SplashScreen extends StatefulWidget {
   State<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen> {
+class _SplashScreenState extends State<SplashScreen>
+    with TickerProviderStateMixin {
+  late AnimationController _fadeController;
+  late Animation<double> _fadeAnimation;
+  late AnimationController _slideController;
+  late Animation<Offset> _slideAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _fadeController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1000),
+    );
+    _fadeAnimation = Tween<double>(
+      begin: 0,
+      end: 1,
+    ).animate(_fadeController);
+
+    _slideController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 800),
+    );
+    _slideAnimation = Tween<Offset>(
+      begin: const Offset(0.0, 0.4),
+      end: const Offset(0.0, 0.0),
+    ).animate(_slideController);
+
+    _fadeController.forward();
+    _slideController.forward();
+  }
+
+  @override
+  void dispose() {
+    _fadeController.dispose();
+    _slideController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocListener<SplashCubit, SplashState>(
       listener: (context, state) {
-        Future.delayed(const Duration(seconds: 2), () {
+        Future.delayed(const Duration(milliseconds: 2000), () {
           if (state.isLogin) {
             context.goNamed(AppRoutes.home.name);
           } else {
@@ -29,9 +68,15 @@ class _SplashScreenState extends State<SplashScreen> {
       },
       child: Scaffold(
         body: Center(
-          child: Text(
-            AppLocalizations.of(context)!.titleApp,
-            style: TextStyles.cok50W800(),
+          child: FadeTransition(
+            opacity: _fadeAnimation,
+            child: SlideTransition(
+              position: _slideAnimation,
+              child: Text(
+                AppLocalizations.of(context)!.titleApp,
+                style: TextStyles.cok50W800(),
+              ),
+            ),
           ),
         ),
       ),

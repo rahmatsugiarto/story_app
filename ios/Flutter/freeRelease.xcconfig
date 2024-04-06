@@ -1,0 +1,6 @@
+#include "Generated.xcconfig"
+
+FLUTTER_TARGET=lib/main_free.dart
+ASSET_PREFIX=free
+BUNDLE_NAME=Story App - Free
+BUNDLE_DISPLAY_NAME=Story App - Free

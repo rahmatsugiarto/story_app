@@ -10,7 +10,7 @@ class SplashCubit extends Cubit<SplashState> {
 
   SplashCubit({
     required this.local,
-  }) : super(const SplashState(isLogin: false));
+  }) : super(SplashState(isLogin: false));
 
   void getToken() async {
     final isLogin = await local.getToken() != "";

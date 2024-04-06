@@ -1,17 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-class LocaleState {
-  final Locale locale;
+part 'locale_state.freezed.dart';
 
-  const LocaleState({
-    required this.locale,
-  });
-
-  LocaleState copyWith({
-    Locale? locale,
-  }) {
-    return LocaleState(
-      locale: locale ?? this.locale,
-    );
-  }
+@freezed
+class LocaleState with _$LocaleState {
+  factory LocaleState({required Locale locale}) = _LocaleState;
 }
