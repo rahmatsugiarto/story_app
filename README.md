@@ -1,3 +1,5 @@
+<img src="readme_assets/preview.png">
+
 # Story App - Dicoding
 
 Simple application Social Media using the Flutter framework. This repository is one of the tasks to get a certificate in Learn Flutter Intermediate App Development.
@@ -5,6 +7,7 @@ Simple application Social Media using the Flutter framework. This repository is 
 ## How to Run
 
 this project use [Flutter 3.16.9](https://flutter.dev/)
+
 
 1. Clone this project
 2. Input Your geo.API_KEY at AndroidManifest.xml and AppDelegate.swift
